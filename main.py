@@ -3,7 +3,7 @@ import os
 #RECURSIVE EXTRACTION FUNCTION: A simple application to extract meaningful files from vastly recursive unpopulated folders.
 def RecursiveExtract():
     file_paths_list = []
-    path = input("Enter FULL path to folder to be analyzed: \n\n")
+    path = input("Enter FULL path to folder to be analyzed: ")
     exists = os.path.exists(path)
 
     if exists:
@@ -44,3 +44,20 @@ def RecursiveExtractHelper(FilePathsList):
     print(f"\n\nSuccess. View your files in: {folder_name}")
 
 
+
+
+def MainLoop():
+    print("*** Welcome to FileRoom ***")
+    print("** Select a procedure to continue ** \n")
+    print("1 Extract useful files from recursive folders. ")
+    print("2 Find and remove duplicate files in a folder. ")
+
+    userOption = input("Enter your choice: ")
+
+    #HANDLE USER CHOICE
+    if int(userOption) == 1:
+        RecursiveExtractList = RecursiveExtract()
+        RecursiveExtractOutput = RecursiveExtractHelper(RecursiveExtractList)
+
+while True:
+    MainLoop()
