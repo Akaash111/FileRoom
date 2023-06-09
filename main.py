@@ -1,10 +1,9 @@
 import os
 
-path = input("Enter FULL path to folder to be analyzed: ")
-print("\n\n")
-file_paths_list = []
-
-def main(path):
+#RECURSIVE EXTRACTION FUNCTION: A simple application to extract meaningful files from vastly recursive unpopulated folders.
+def RecursiveExtract():
+    file_paths_list = []
+    path = input("Enter FULL path to folder to be analyzed: \n\n")
     exists = os.path.exists(path)
 
     if exists:
@@ -13,38 +12,35 @@ def main(path):
             for file in files:
                 file_path = os.path.join(path, file)
                 print(file)
-                main(file_path)
+                RecursiveExtract(file_path)
         else:
             file_paths_list.append(path)
+            
+        return file_paths_list
+    
     else:
         return "Filepath not found!\n"
 
-main(path)
+#HELPER FUNCTION IS TO BE CALLED WITH OUTPUT OF RECURSIVEEXTRACT
+def RecursiveExtractHelper(FilePathsList):
+    if len(FilePathsList) > 0:
+        print("\nList of file paths:")
+        for FilePath in FilePathsList:
+            print(FilePath)
 
-if len(file_paths_list) > 0:
-    print("\n")
-    print("List of file paths:")
+        root_dir_path = input("\n\nEnter the FULL path to your desired directory: ")
+        folder_name = input("\n\nChoose a name for a new folder on your specified directory containing these files: ")
+        exists = os.path.exists(root_dir_path)
 
-    for file_path in file_paths_list:
-        print(file_path)
+        if exists:
+            root_dir = os.path.join(root_dir_path, folder_name)
+            os.mkdir(root_dir)
 
-    root_dir_path = input("\n\n Enter the FULL path to your desired directory: ")
-    folder_name = input("\n\n Choose a name for a new folder on your specified directory containing these files: ")
+            for file_path in FilePathsList:
+                file_name = os.path.basename(file_path)
+                new_file_path = os.path.join(root_dir, file_name)
+                os.rename(file_path, new_file_path)
 
-
-    exists = os.path.exists(root_dir_path)
-
-    if exists:
-        
-        root_dir = os.path.join(root_dir_path, folder_name)
-        os.mkdir(root_dir)
-
-        for file_path in file_paths_list:
-            file_name = os.path.basename(file_path)
-            new_file_path = os.path.join(root_dir, file_name)
-            os.rename(file_path, new_file_path)
-
-print("\n\nSuccess.")
-print(f"\n\n View your files in: {folder_name}")
+    print(f"\n\nSuccess. View your files in: {folder_name}")
 
 
